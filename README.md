@@ -1,2 +1,2 @@
-# menace_-meme
-Your plug to funny skeets and memes on the internet.
+# menace_memes
+Your gate for memes and skeets all over the internet

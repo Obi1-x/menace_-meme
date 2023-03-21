@@ -1,0 +1,11 @@
+#node modules folder
+node_modules
+
+#env variables
+.env
+
+#Google credential.
+netlify/functions/to_backend/meme-menace-firebase-adminsdk-tjdg1-41625b4048.json
+
+# Local Netlify folder
+.netlify
