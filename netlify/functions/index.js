@@ -3,60 +3,58 @@ require('dotenv').config(); //Try removing this
 const express = require('express'); //returns a function
 const app = express(); //Returns an object of type Express
 app.use(express.json()); //Allows our server to accept JSON parsing as a body in POST command or so.
-const fs = require('fs');
+//const fs = require('fs');
 
 //const serverless = require('serverless-http');
 
-module.exports.handler = async function (event, context) { 
+module.exports.handler = async function (event, context) {
+    const bot_Import = require('./to_frontend/telegrafAPI');
 
-    
+    const botMod = bot_Import.bot;
+    const bToken = bot_Import.botToken;
+    const _url = bot_Import.hookUrl;
 
-const bot_Import = require('./to_frontend/telegrafAPI');
+    console.log("Token:", bToken);
+    console.log("URL:", _url);
 
-const botMod =  bot_Import.bot;
-const bToken =  bot_Import.botToken;
-const _url =  bot_Import.hookUrl;
+    const repo = bot_Import.kBoards.daBase;
 
-console.log("\nToken:", bToken);
-console.log("\nURL:", _url);
+    //app.use(botMod.webhookCallback("/" + bToken));
+    //botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
+    //botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
 
-const repo = bot_Import.kBoards.daBase;
-
-app.use(botMod.webhookCallback("/" + bToken));
-botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
-botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
-
-app.get('/', async (req, res) => {
-    console.log("Welcome to this endpoint!");
-    res.send("Hello World, Welcome to my deta base.");
-}); 
-
-app.get('/logs', async (req, res) => {
-    console.log("Logs endpoint!");
-    res.send(repo.dbLogs);
-    //res.send(bot_Import.rawDb);
-});
-
-app.get('/db', async (req, res) => {
-    console.log("DB endpoint!", "Reading DB...");
-    
-    fs.readFile("./netlify/functions/to_backend/DB.json", "utf8", (err, jsonString) => {
-        if(err) console.log("DB read failed!", err); //Try again.
-        else if(!err){
-            try {
-                console.log("DB read successfully");
-                res.send(JSON.parse(jsonString));
-            } catch (error) {
-                console.log("Error parsing JSON string after reading DB: ", error);
-            }
-        }
+    app.get('/', async (req, res) => {
+        console.log("Welcome to this endpoint!");
+        res.send("Hello World, Welcome to my deta base.");
     });
-});
 
-return {
-    statusCode: 200,
-    body: "Working"
-  }
+    app.get('/logs', async (req, res) => {
+        console.log("Logs endpoint!");
+        res.send(repo.dbLogs);
+        //res.send(bot_Import.rawDb);
+    });
+
+    /*
+    app.get('/db', async (req, res) => {
+        console.log("DB endpoint!", "Reading DB...");
+        
+        fs.readFile("./netlify/functions/to_backend/DB.json", "utf8", (err, jsonString) => {
+            if(err) console.log("DB read failed!", err); //Try again.
+            else if(!err){
+                try {
+                    console.log("DB read successfully");
+                    res.send(JSON.parse(jsonString));
+                } catch (error) {
+                    console.log("Error parsing JSON string after reading DB: ", error);
+                }
+            }
+        });
+    });*/
+
+    return {
+        statusCode: 200,
+        body: "Working"
+    }
 
 }
 
@@ -79,10 +77,3 @@ app.use('/.netlify/functions/api', router);*/
 const port = 8085;
 app.listen(port, () => console.log(`Listening at ${port}`));
 botMod.launch();*/
-
-
-/* 
-,
-    "start": "./node_modules/.bin/netlify-lambda serve src",
-    "build": "./node_modules/.bin/netlify-lambda build src"
-     */

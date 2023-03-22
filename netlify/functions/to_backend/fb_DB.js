@@ -26,14 +26,13 @@ const app = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://meme-menace-default-rtdb.firebaseio.com"
 });
+serviceAccount = {}
+
 
 // Retrieve services via the defaultApp variable...
 let auth = getAuth();  //app.auth();
 let database = getDatabase();  //app.database();
 
-console.log("Before wipe", serviceAccount);
-serviceAccount = {}
-console.log("After wipe", serviceAccount);
 
 
 
