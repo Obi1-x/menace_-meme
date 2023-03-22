@@ -29,7 +29,7 @@ bot.use(async (ctx, next) => {
     await next();
     const ms = new Date() - start;
     console.log(_texts.responseTime, ms);
-    dbWriteCountdown = setTimeout(kBoards.daBase.write_cmd, 8000); // Writes to DB file 9 seconds after last activity.
+    //dbWriteCountdown = setTimeout(kBoards.daBase.write_cmd, 8000); // Writes to DB file 9 seconds after last activity.
 });
 
 bot.use(session()); // Session middleware for local storage.
