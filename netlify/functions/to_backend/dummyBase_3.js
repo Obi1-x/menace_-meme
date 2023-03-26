@@ -70,7 +70,7 @@ const verifyUser = async(aUser) => {
 }
 
 
-const assignAdmin = (adminId, isCreator) => { //Set this manually or get admin data from telegraf API if avaialable.
+const assignAdmin = async (adminId, isCreator) => { //Set this manually or get admin data from telegraf API if avaialable.
     fbDB.setAdmin(String(adminId), new AdminInfo(isCreator)).then((err) => {
         if (err) {
             dbLogs["Assigned admin"] = "This error occured: " + err;
@@ -162,7 +162,7 @@ const testSend = () => {
     registerUser(theOwner);
 }
 
-const testGetAdmin = () => {
+const testGetAdmin = async () => {
     var theOwner = {
         "id": 1355311995,
         "first_name": "Phenomenal",
@@ -180,7 +180,7 @@ const testGetAdmin = () => {
     isAdmin(theOwner.id).then((anAdmin) => {
         if (anAdmin.val()) { //Is an Admin.
             console.log("Gotten admin: " + anAdmin.val());
-            kBoards.daBase.dbLogs["Snapshot"] = anAdmin.val();
+            dbLogs["Snapshot"] = anAdmin.val();
             return anAdmin.val();
         } else if (!anAdmin.val()) {
             console.log("Gotten admin: ", "Nothing returned");
@@ -190,7 +190,7 @@ const testGetAdmin = () => {
 }
 
 
-const testSetAdmin = () => {
+const testSetAdmin = async () => {
     var theOwner = {
         "id": 1355311995,
         "first_name": "Phenomenal",

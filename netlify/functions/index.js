@@ -37,15 +37,19 @@ router.get('/logs', async (req, res) => {
 router.get('/dbread', async (req, res) => {
     console.log("DB endpoint!", "Reading DB...");
     //repo.testRetrieve();
-    const wrote = repo.testGetAdmin();
-    res.send(`Read complete ${wrote}`);
+    repo.testGetAdmin().then((R) => {
+        res.send(`Read complete ${R}`);
+    });
+    //res.send(`Read complete ${wrote}`);
 });
 
 router.get('/dbwrite', async (req, res) => {
     console.log("DB endpoint!", "Writing to DB...");
     //repo.testSend();
-    const written = repo.testSetAdmin();
-    res.send(`Write complete ${written}`);
+    repo.testSetAdmin().then((R) => {
+        res.send(`Write complete ${R}`);
+    });
+    //res.send(`Write complete ${written}`);
 });
 
 
