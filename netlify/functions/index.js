@@ -15,6 +15,7 @@ const botMod = bot_Import.bot;
 const bToken = bot_Import.botToken;
 const _url = bot_Import.hookUrl;
 
+const repo = bot_Import.kBoards.daBase;
 
 //botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
 router.use(botMod.webhookCallback("/" + bToken));
@@ -31,9 +32,8 @@ router.get('/logs', async (req, res) => {
     res.send(repo.dbLogs);
 });
 
-/*
-const repo = bot_Import.kBoards.daBase;
 
+/*
 router.get('/dbread', async (req, res) => {
     console.log("DB endpoint!", "Reading DB...");
     repo.testRetrieve();
