@@ -114,7 +114,7 @@ const getMemePoolSize = () => {
 
 
 
-
+/*
 const testRetrieve = async () => {
     var aUser = {
         "id": 1355311995,
@@ -123,18 +123,18 @@ const testRetrieve = async () => {
         "type": "private"
     }
 
-
-
     const unknownUser = await fbDB.getUser(aUser.id);
     unknownUser.once('value').then(async (snapshot) => {
         if (snapshot.val()) {
             console.log("User exists");
             dbLogs["Snapshot"] = snapshot.val();
             console.log("User info: ", snapshot.val());
+            //fbDB.freeResources();
             return snapshot.val();
         } else if (!snapshot.val()) {
             dbLogs["Snapshot"] = "User not detected.";
             console.log("User info: ", snapshot.val());
+            //fbDB.freeResources();
             return "Nothing found";
         }
     }).catch((error) => {
@@ -160,7 +160,7 @@ const testSend = () => {
 
     registerUser(theOwner);
     
-}
+}*/
 //=======================================================DB QUERIES END.
 
 

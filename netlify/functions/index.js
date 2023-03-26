@@ -19,15 +19,17 @@ const serverless = require('serverless-http');
 
     const repo = bot_Import.kBoards.daBase;
 
-    //app.use(botMod.webhookCallback("/" + bToken));
+    const router = express.Router();
+
+app.use('/.netlify/functions/index', router);
+
+    router.use(botMod.webhookCallback("/" + bToken));
     //botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
-    //botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
+    botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
 
 
     
-const router = express.Router();
 
-app.use('/.netlify/functions/index', router);
 
 
     router.get('/', async (req, res) => {
@@ -41,18 +43,20 @@ app.use('/.netlify/functions/index', router);
         //res.send(bot_Import.rawDb);
     });
 
-    
+    /*
     router.get('/dbread', async (req, res) => {
         console.log("DB endpoint!", "Reading DB...");
         repo.testRetrieve();
+        res.send("Read complete");
     });
 
     router.get('/dbwrite', async (req, res) => {
         console.log("DB endpoint!", "Writing to DB...");
         repo.testSend();
+        res.send("Write complete");
     });
 
-    /*
+    
     return {
         statusCode: 200,
         body: "Working"
