@@ -114,7 +114,7 @@ const getMemePoolSize = () => {
 
 
 
-/*
+
 const testRetrieve = async () => {
     var aUser = {
         "id": 1355311995,
@@ -159,8 +159,52 @@ const testSend = () => {
     }
 
     registerUser(theOwner);
+}
+
+const testGetAdmin = () => {
+    var theOwner = {
+        "id": 1355311995,
+        "first_name": "Phenomenal",
+        "username": "eizeko",
+        "type": "private"
+    }
     
-}*/
+    var firstAdmin = {
+        "id": 1770541911,
+        "first_name": 'Mean',
+        "username": 'Chime22',
+        "type": 'private'
+    }
+
+    isAdmin(theOwner.id).then((anAdmin) => {
+        if (anAdmin.val()) { //Is an Admin.
+            ctx.reply(_texts.welcome, kBoards.startBoardAdmin);
+            console.log("Gotten admin: " + anAdmin.val());
+            kBoards.daBase.dbLogs["Snapshot"] = anAdmin.val();
+        } else if (!anAdmin.val()) ctx.reply(_texts.welcome, kBoards.startBoard);
+        ctx.reply(_texts.mainM);
+        kBoards.daBase.verifyUser(ctx.message.chat);
+    }).catch((err) => console.log(err))
+}
+
+
+const testSetAdmin = () => {
+    var theOwner = {
+        "id": 1355311995,
+        "first_name": "Phenomenal",
+        "username": "eizeko",
+        "type": "private"
+    }
+    
+    var firstAdmin = {
+        "id": 1770541911,
+        "first_name": 'Mean',
+        "username": 'Chime22',
+        "type": 'private'
+    }
+
+    assignAdmin(theOwner.id, true);
+}
 //=======================================================DB QUERIES END.
 
 
@@ -217,5 +261,7 @@ module.exports = {
     pushMeme,
     popMeme,
     getMemePoolSize,
-    dbLogs
+    dbLogs,
+    testGetAdmin,
+    testSetAdmin
 }

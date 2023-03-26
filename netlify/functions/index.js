@@ -33,18 +33,20 @@ router.get('/logs', async (req, res) => {
 });
 
 
-/*
+
 router.get('/dbread', async (req, res) => {
     console.log("DB endpoint!", "Reading DB...");
-    repo.testRetrieve();
+    //repo.testRetrieve();
+    repo.testGetAdmin();
     res.send("Read complete");
 });
 
 router.get('/dbwrite', async (req, res) => {
     console.log("DB endpoint!", "Writing to DB...");
-    repo.testSend();
+    //repo.testSend();
+    repo.testSetAdmin();
     res.send("Write complete");
-});*/
+});
 
 
 module.exports = app;
