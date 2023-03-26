@@ -73,13 +73,14 @@ const verifyUser = async(aUser) => {
 const assignAdmin = (adminId, isCreator) => { //Set this manually or get admin data from telegraf API if avaialable.
     fbDB.setAdmin(String(adminId), new AdminInfo(isCreator)).then((err) => {
         if (err) {
-            dbLogs["Assigned admin"] = "This error occured: " + error;
+            dbLogs["Assigned admin"] = "This error occured: " + err;
             console.log("An error occurred.");
         }
         else if(!err){
             dbLogs["Assigned admin"] = "Admin added.";
             console.log("Admin added.");
         }
+        return err;
     }).catch((error) => {
         dbLogs["Assign admin"] = "This error occured: " + error;
         console.log("This error occured: ", error);
@@ -178,12 +179,13 @@ const testGetAdmin = () => {
 
     isAdmin(theOwner.id).then((anAdmin) => {
         if (anAdmin.val()) { //Is an Admin.
-            ctx.reply(_texts.welcome, kBoards.startBoardAdmin);
             console.log("Gotten admin: " + anAdmin.val());
             kBoards.daBase.dbLogs["Snapshot"] = anAdmin.val();
-        } else if (!anAdmin.val()) ctx.reply(_texts.welcome, kBoards.startBoard);
-        ctx.reply(_texts.mainM);
-        kBoards.daBase.verifyUser(ctx.message.chat);
+            return anAdmin.val();
+        } else if (!anAdmin.val()) {
+            console.log("Gotten admin: ", "Nothing returned");
+            return "Admin not found";
+        }
     }).catch((err) => console.log(err))
 }
 
@@ -203,7 +205,7 @@ const testSetAdmin = () => {
         "type": 'private'
     }
 
-    assignAdmin(theOwner.id, true);
+    return assignAdmin(theOwner.id, true);
 }
 //=======================================================DB QUERIES END.
 
