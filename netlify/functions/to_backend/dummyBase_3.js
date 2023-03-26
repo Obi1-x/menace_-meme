@@ -110,6 +110,57 @@ const popMeme = (index) => {
 const getMemePoolSize = () => {
     return fbDB.memePoolSize();
 }
+
+
+
+
+
+const testRetrieve = async () => {
+    var aUser = {
+        "id": 1355311995,
+        "first_name": "Phenomenal",
+        "username": "eizeko",
+        "type": "private"
+    }
+
+
+
+    const unknownUser = await fbDB.getUser(aUser.id);
+    unknownUser.once('value').then(async (snapshot) => {
+        if (snapshot.val()) {
+            console.log("User exists");
+            dbLogs["Snapshot"] = snapshot.val();
+            console.log("User info: ", snapshot.val());
+            return snapshot.val();
+        } else if (!snapshot.val()) {
+            dbLogs["Snapshot"] = "User not detected.";
+            console.log("User info: ", snapshot.val());
+            return "Nothing found";
+        }
+    }).catch((error) => {
+        dbLogs["Verify user"] = "This error occured: " + error;
+        console.log("This error occured: ", error);
+    });
+}
+
+const testSend = () => {
+    var theOwner = {
+        "id": 1355311995,
+        "first_name": "Phenomenal",
+        "username": "eizeko",
+        "type": "private"
+    }
+    
+    var firstAdmin = {
+        "id": 1770541911,
+        "first_name": 'Mean',
+        "username": 'Chime22',
+        "type": 'private'
+    }
+
+    registerUser(theOwner);
+    
+}
 //=======================================================DB QUERIES END.
 
 
@@ -124,7 +175,7 @@ function initDB(){
     }
     registerUser(dummyUser);
 }
-initDB();*/
+initDB();
 
 var theOwner = {
     "id": 1355311995,
@@ -138,10 +189,10 @@ var firstAdmin = {
     "first_name": 'Mean',
     "username": 'Chime22',
     "type": 'private'
-}
+}*/
 
 //assignAdmin(theOwner.id, true);
-assignAdmin(firstAdmin.id, false);
+//assignAdmin(firstAdmin.id, false);
 
 //pushMeme(1355311995, "https://picsum.photos/200/300/", "Testing... A beautiful photo.");
 //pushMeme(1355311995, "https://twitter.com/Jeyjeffrey1/status/1566504571157053448?s=20", "The excuse of traffic never gets old.");
@@ -166,5 +217,7 @@ module.exports = {
     pushMeme,
     popMeme,
     getMemePoolSize,
-    dbLogs
+    dbLogs,
+    testRetrieve,
+    testSend
 }

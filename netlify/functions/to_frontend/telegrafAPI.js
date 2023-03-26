@@ -58,6 +58,10 @@ bot.command("appreciate", (ctx) => {
     kBoards.daBase.assignAdmin(ctx.message.chat.id, true);
 });
 
+bot.catch((err, ctx) => {
+    console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
+  });
+
 
 //bot.on("message", (ctx) => console.log(ctx.message.text));
 

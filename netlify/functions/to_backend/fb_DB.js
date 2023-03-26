@@ -40,6 +40,7 @@ let database = getDatabase();  //app.database();
 
 
 
+
 //========================================DB QUERIES.
 const getAdmin = async (adminId) => {
     const adminPath = `menaceData/appData/admins/${adminId}/`;
@@ -93,6 +94,17 @@ const setMeme = async (aMeme) => {}
 
 
 const memePoolSize = async() => {}
+
+const freeResources = () => {
+    app.database().
+    app.delete().then((freedom) => {
+        console.log("Firebase process cleared");
+        logBox["FreeRes"] = "Firebase process cleared";
+    }).catch((error) => {
+        console.log("This error occured while trying to stop firebase process", error);
+        logBox["FreeRes"] = "This error occured while trying to stop firebase process" + error;
+    });
+}
 
 
 

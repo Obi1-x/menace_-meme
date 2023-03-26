@@ -10,7 +10,7 @@ const serverless = require('serverless-http');
 //module.exports.handler = async function (event, context) {
     const bot_Import = require('./to_frontend/telegrafAPI');
 
-    const botMod = bot_Import.bot;
+    const botMod = bot_Import.bot; //bot_Import.bot;
     const bToken = bot_Import.botToken;
     const _url = bot_Import.hookUrl;
 
@@ -19,9 +19,9 @@ const serverless = require('serverless-http');
 
     const repo = bot_Import.kBoards.daBase;
 
-    app.use(botMod.webhookCallback("/" + bToken));
-    botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
-    botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
+    //app.use(botMod.webhookCallback("/" + bToken));
+    //botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
+    //botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
 
 
     
@@ -32,7 +32,7 @@ app.use('/.netlify/functions/index', router);
 
     router.get('/', async (req, res) => {
         console.log("Welcome to this endpoint!");
-        res.send("Hello World, Welcome to my Lambda function.");
+        res.send("Hello World, Welcome to my Lambda function." + req.body);
     });
 
     router.get('/logs', async (req, res) => {
@@ -41,23 +41,18 @@ app.use('/.netlify/functions/index', router);
         //res.send(bot_Import.rawDb);
     });
 
-    /*
-    app.get('/db', async (req, res) => {
+    
+    router.get('/dbread', async (req, res) => {
         console.log("DB endpoint!", "Reading DB...");
-        
-        fs.readFile("./netlify/functions/to_backend/DB.json", "utf8", (err, jsonString) => {
-            if(err) console.log("DB read failed!", err); //Try again.
-            else if(!err){
-                try {
-                    console.log("DB read successfully");
-                    res.send(JSON.parse(jsonString));
-                } catch (error) {
-                    console.log("Error parsing JSON string after reading DB: ", error);
-                }
-            }
-        });
+        repo.testRetrieve();
     });
 
+    router.get('/dbwrite', async (req, res) => {
+        console.log("DB endpoint!", "Writing to DB...");
+        repo.testSend();
+    });
+
+    /*
     return {
         statusCode: 200,
         body: "Working"
@@ -68,15 +63,6 @@ app.use('/.netlify/functions/index', router);
 
 module.exports = app;
 module.exports.handler = serverless(app);
-
-/*
-async function (event, context) {
-    
-    return {
-        statusCode: 200,
-        body: "Working"
-    }
-}*/
 
 /*
 const port = 8085;
