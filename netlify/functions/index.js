@@ -3,9 +3,12 @@ require('dotenv').config(); //Try removing this
 const express = require('express'); //returns a function
 const app = express(); //Returns an object of type Express
 app.use(express.json()); //Allows our server to accept JSON parsing as a body in POST command or so.
-//const fs = require('fs');
 
 const serverless = require('serverless-http');
+
+const router = express.Router();
+app.use('/.netlify/functions/index', router);
+
 
 //module.exports.handler = async function (event, context) {
     const bot_Import = require('./to_frontend/telegrafAPI');
@@ -19,28 +22,19 @@ const serverless = require('serverless-http');
 
     const repo = bot_Import.kBoards.daBase;
 
-    const router = express.Router();
-
-app.use('/.netlify/functions/index', router);
-
+    botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
     router.use(botMod.webhookCallback("/" + bToken));
-    //botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
     botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
-
-
-    //serverless()
-
 
 
     router.get('/', async (req, res) => {
         console.log("Welcome to this endpoint!");
-        res.send("Hello World, Welcome to my Lambda function." + req.body);
+        res.send("Hello World, Welcome to my Lambda function.");
     });
 
     router.get('/logs', async (req, res) => {
         console.log("Logs endpoint!");
         res.send(repo.dbLogs);
-        //res.send(bot_Import.rawDb);
     });
 
     /*
