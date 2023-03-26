@@ -217,7 +217,5 @@ module.exports = {
     pushMeme,
     popMeme,
     getMemePoolSize,
-    dbLogs,
-    testRetrieve,
-    testSend
+    dbLogs
 }
