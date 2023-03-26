@@ -89,7 +89,7 @@ const assignAdmin = (adminId, isCreator) => { //Set this manually or get admin d
 
 const isAdmin = async (adminId) => {
     //Verification from DB.
-    console.log("\nLooking for admin");
+    console.log("Looking for admin");
     const checking = await fbDB.getAdmin(adminId);
     return checking.once('value');
 }
