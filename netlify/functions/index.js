@@ -17,7 +17,7 @@ const _url = bot_Import.hookUrl;
 
 const repo = bot_Import.kBoards.daBase;
 
-//botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
+botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
 router.use(botMod.webhookCallback("/" + bToken));
 botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
 
