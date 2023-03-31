@@ -49,6 +49,12 @@ router.get('/dbread', async (req, res) => {
     //res.send(`Read complete wrote`);
 });
 
+router.get('/dbconnect', async (req, res) => {
+    console.log("DB endpoint!", "Connecting to DB...");
+    const response = repo.connectDB();
+    res.status(200).send(response);
+});
+
 /*
 router.get('/dbwrite', async (req, res) => {
     console.log("DB endpoint!", "Writing to DB...");

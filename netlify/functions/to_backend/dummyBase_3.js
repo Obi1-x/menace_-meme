@@ -121,6 +121,11 @@ const getMemePoolSize = () => {
 
 
 
+
+const connectDB = () => {
+    return mongoDB.establishConnection();
+}
+
 /*
 const testRetrieve = async () => {
     var aUser = {
@@ -269,5 +274,6 @@ module.exports = {
     pushMeme,
     popMeme,
     getMemePoolSize,
-    dbLogs
+    dbLogs,
+    connectDB
 }

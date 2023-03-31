@@ -18,7 +18,7 @@ const dbConnect = () => {
         logBox["dbConnect"] = `DB connected on ${new Date().getTime()}`;
     }).catch((error) => console.log("This error occured while trying to connect to DB:", error));
 }
-dbConnect();
+//dbConnect();
 
 
 
@@ -62,6 +62,17 @@ const setMeme = async (aMeme) => {}
 const memePoolSize = async() => {}
 
 
+const establishConnection = () => {
+    var message;
+    if(menaceDB) message = "DB connected";
+    else if(!menaceDB) {
+        dbConnect();
+        message = "Connecting DB";
+    }
+    return message
+}
+
+
 
 module.exports = {
     getUser,
@@ -71,5 +82,6 @@ module.exports = {
     getMeme,
     setMeme,
     memePoolSize,
-    logBox
+    logBox,
+    establishConnection
 };
