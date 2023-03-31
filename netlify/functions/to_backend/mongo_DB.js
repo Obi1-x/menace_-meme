@@ -4,7 +4,6 @@ var logBox = {};
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-console.log(process.env.DB_URL_2);
 const client = new MongoClient(process.env.DB_URL_2, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 var connectionInstance, menaceDB;
 
@@ -16,6 +15,7 @@ const dbConnect = () => {
         
         //menaceDB.collection("users").find()
         console.log("Database connected!");
+        logBox["dbConnect"] = `DB connected on ${new Date().getTime()}`;
     }).catch((error) => console.log("This error occured while trying to connect to DB:", error));
 }
 dbConnect();

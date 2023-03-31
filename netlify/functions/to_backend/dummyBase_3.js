@@ -54,18 +54,24 @@ const registerUser = (aUser) => {
 
 const verifyUser = async (aUser) => {
     //Get user inform from db.
-    const unknownUser = await mongoDB.getUser(aUser.id);
+    try {
+        const unknownUser = await mongoDB.getUser(aUser.id);
 
-    if (unknownUser) {
-        console.log("User data already exists");
-        dbLogs["User data"] = unknownUser;
-        console.log("User info: ", unknownUser);
-        return "Verified";
-    }
-    else if (!unknownUser) {
-        dbLogs["User data"] = "User not detected.";
-        console.log("User not detected.");
-        registerUser(aUser);
+        if (unknownUser) {
+            console.log("User data already exists");
+            dbLogs["User data"] = unknownUser;
+            console.log("User info: ", unknownUser);
+            return "Verified";
+        }
+        else if (!unknownUser) {
+            dbLogs["User data"] = "User not detected.";
+            console.log("User not detected.");
+            registerUser(aUser);
+        }
+
+    } catch (err_r) {
+        dbLogs["Caught error"] = err_r;
+        console.log("Error caught while verifying user", err_r);
     }
 }
 
