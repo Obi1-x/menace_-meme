@@ -5,6 +5,6 @@
 
 [functions]
         node_bundler = "esbuild"
-        external_node_modules = ["express", "telegraf", "firebase-admin"]
+        external_node_modules = ["express", "telegraf", "mongodb"]
         directory = "netlify/functions"
         included_files = ["to_backend/**.json"]

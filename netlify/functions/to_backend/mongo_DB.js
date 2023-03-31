@@ -4,6 +4,7 @@ var logBox = {};
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
+console.log(process.env.DB_URL_2);
 const client = new MongoClient(process.env.DB_URL_2, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 var connectionInstance, menaceDB;
 
