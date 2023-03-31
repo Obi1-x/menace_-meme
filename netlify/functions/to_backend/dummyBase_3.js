@@ -1,6 +1,7 @@
 //const detaDB = require('./detaBASE');
-const fbDB = require('./fb_DB');
-const dbLogs = fbDB.logBox;
+//const fbDB = require('./fb_DB');
+const mongoDB = require('./mongo_DB');
+const dbLogs = mongoDB.logBox;
 
 //======================================= SCHEMAs
 class UserInfo{
@@ -34,14 +35,15 @@ class UserInfo{
 const registerUser = (aUser) => {
     const newUser = new UserInfo(aUser.username, aUser.first_name, aUser.id);
     //Main registration
-    fbDB.setUser(newUser).then((err) => {
-        if (err) {
+    mongoDB.setUser(newUser).then((result) => {
+        console.log("Object inserted ID:", result.insertedId);
+        if (result) {
+            dbLogs["Register user"] = `User added! Db _id: ${result.insertedId}`;
+            console.log("User added! Db _id:", result.insertedId);
+        }
+        else if(!result){
             dbLogs["Register user"] = "This error occured: " + error;
             console.log("An error occurred");
-        }
-        else if(!err){
-            dbLogs["Register user"] = "User added";
-            console.log("User added");
         }
     }).catch((error) => {
         dbLogs["Register user"] = "This error occured: " + error;
@@ -50,28 +52,26 @@ const registerUser = (aUser) => {
 }
 
 
-const verifyUser = async(aUser) => {
+const verifyUser = async (aUser) => {
     //Get user inform from db.
-    const unknownUser = await fbDB.getUser(aUser.id);
-    unknownUser.once('value').then(async (snapshot) => {
-        if (snapshot.val()) {
-            console.log("User data already exists");
-            dbLogs["Snapshot"] = snapshot.val();
-            console.log("User info: ", snapshot.val());
-        } else if (!snapshot.val()) {
-            dbLogs["Snapshot"] = "User not detected.";
-            console.log("User info: ", snapshot.val());
-            registerUser(aUser);
-        }
-    }).catch((error) => {
-        dbLogs["Verify user"] = "This error occured: " + error;
-        console.log("This error occured: ", error);
-    });
+    const unknownUser = await mongoDB.getUser(aUser.id);
+
+    if (unknownUser) {
+        console.log("User data already exists");
+        dbLogs["User data"] = unknownUser;
+        console.log("User info: ", unknownUser);
+        return "Verified";
+    }
+    else if (!unknownUser) {
+        dbLogs["User data"] = "User not detected.";
+        console.log("User not detected.");
+        registerUser(aUser);
+    }
 }
 
 
 const assignAdmin = async (adminId, isCreator) => { //Set this manually or get admin data from telegraf API if avaialable.
-    fbDB.setAdmin(String(adminId), new AdminInfo(isCreator)).then((err) => {
+    mongoDB.setAdmin(String(adminId), new AdminInfo(isCreator)).then((err) => {
         if (err) {
             dbLogs["Assigned admin"] = "This error occured: " + err;
             console.log("An error occurred.");
@@ -91,7 +91,7 @@ const assignAdmin = async (adminId, isCreator) => { //Set this manually or get a
 const isAdmin = async (adminId) => {
     //Verification from DB.
     console.log("Looking for admin");
-    const checking = await fbDB.getAdmin(adminId);
+    const checking = await mongoDB.getAdmin(adminId);
     return checking.once('value');
 }
 
@@ -100,22 +100,22 @@ const pushMeme = (creator, source, desc_) => {
     var newMeme = new Meme(creator, source, desc_);
 
     //appData.memes.push(newMeme);
-    fbDB.setMeme(newMeme);
+    mongoDB.setMeme(newMeme);
 }
 
 const popMeme = (index) => {
     //return appData.memes[index];
-    return fbDB.getMeme();
+    return mongoDB.getMeme();
 }
 
 const getMemePoolSize = () => {
-    return fbDB.memePoolSize();
+    return mongoDB.memePoolSize();
 }
 
 
 
 
-
+/*
 const testRetrieve = async () => {
     var aUser = {
         "id": 1355311995,
@@ -206,7 +206,7 @@ const testSetAdmin = async () => {
     }
 
     return assignAdmin(theOwner.id, true);
-}
+}*/
 //=======================================================DB QUERIES END.
 
 
@@ -263,7 +263,5 @@ module.exports = {
     pushMeme,
     popMeme,
     getMemePoolSize,
-    dbLogs,
-    testGetAdmin,
-    testSetAdmin
+    dbLogs
 }

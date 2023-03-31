@@ -37,15 +37,15 @@ bot.use(stage.middleware()); // Stage middleware
 
 
 bot.start((ctx) => {
-    kBoards.daBase.isAdmin(ctx.message.chat.id).then((anAdmin) => {
-        if (anAdmin.val()) { //Is an Admin.
+    //kBoards.daBase.isAdmin(ctx.message.chat.id).then((anAdmin) => {
+      /*  if (anAdmin.val()) { //Is an Admin.
             ctx.reply(_texts.welcome, kBoards.startBoardAdmin);
             console.log("Gotten admin: " + anAdmin.val());
             kBoards.daBase.dbLogs["Snapshot"] = anAdmin.val();
         } else if (!anAdmin.val()) ctx.reply(_texts.welcome, kBoards.startBoard);
-        ctx.reply(_texts.mainM);
+        ctx.reply(_texts.mainM);*/
         kBoards.daBase.verifyUser(ctx.message.chat);
-    }).catch((err) => console.log(err))
+    //}).catch((err) => console.log(err))
 });
 
 //Method for requesting user's location

@@ -24,7 +24,7 @@ botMod.startWebhook("/" + bToken, null, null); //To start the webhook.
 
 router.get('/', async (req, res) => {
     console.log("Welcome to the main endpoint!");
-    res.send("Hello World, Welcome to my Lambda function endpoint.");
+    res.status(200).send("Hello World, Welcome to my Lambda function endpoint.");
 });
 
 router.get('/logs', async (req, res) => {
@@ -35,22 +35,25 @@ router.get('/logs', async (req, res) => {
 
 
 router.get('/dbread', async (req, res) => {
+    var aUser = {
+        "id": 1355312020,
+        "first_name": "Drake",
+        "username": "eminem",
+        "type": "private"
+    }
+
     console.log("DB endpoint!", "Reading DB...");
-    //repo.testRetrieve();
-    repo.testGetAdmin().then((R) => {
-        res.send(`Read complete ${R}`);
+    repo.verifyUser(aUser).then((T) => {
+        res.status(200).send(`User verified ${T}`);
     });
-    //res.send(`Read complete ${wrote}`);
+    //res.send(`Read complete wrote`);
 });
 
+/*
 router.get('/dbwrite', async (req, res) => {
     console.log("DB endpoint!", "Writing to DB...");
-    //repo.testSend();
-    repo.testSetAdmin().then((R) => {
-        res.send(`Write complete ${R}`);
-    });
-    //res.send(`Write complete ${written}`);
-});
+    res.send(`Write complete`);
+});*/
 
 
 module.exports = app;
