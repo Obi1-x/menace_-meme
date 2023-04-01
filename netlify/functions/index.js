@@ -51,10 +51,15 @@ router.get('/dbread', async (req, res) => {
 
 router.get('/dbconnect', async (req, res) => {
     console.log("DB endpoint!", "Connecting to DB...");
-    const response = repo.connectDB();
+    const response = await repo.connectDB();
     res.status(200).send(response);
 });
 
+router.get('/dbdisconnect', async (req, res) => {
+    console.log("DB endpoint!", "Disconnecting DB...");
+    const response = await repo.disconnectDB();
+    res.status(200).send(response);
+});
 /*
 router.get('/dbwrite', async (req, res) => {
     console.log("DB endpoint!", "Writing to DB...");

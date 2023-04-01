@@ -4,13 +4,14 @@ var logBox = {};
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
+console.log("Migrated DB", process.env.DB_URL_2);
 const client = new MongoClient(process.env.DB_URL_2, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 var connectionInstance, menaceDB;
 
 const dbConnect = () => {
     console.log("Connecting to MongoDB Atlas cluster...");
     client.connect().then((connected) => {
-        connectionInstance = connected;
+        connectionInstance = connected.close();
         menaceDB = connected.db("menace_db");  //REMEMBER TO SAVE DB AND COLLECTIONS NAMES IN THE .ENV FILE
         
         //menaceDB.collection("users").find()
@@ -66,6 +67,8 @@ const setMeme = async (aMeme) => {}
 const memePoolSize = async() => {}
 
 
+
+
 const establishConnection = () => {
     var message;
     if(menaceDB) message = "DB connected";
@@ -74,6 +77,24 @@ const establishConnection = () => {
         message = "Connecting DB";
     }
     return message
+}
+
+const closeConnection = () => {
+    var message;
+    if (!connectionInstance) message = "No DB present";
+    else if (connectionInstance) {
+        try {
+            connectionInstance.close().then((closed) => {
+                console.log("DB connection closed", closed);
+                logBox["Close DB"] = "DB connection closed" + closed;
+            });
+        } catch (error) {
+            console.log("This error occured while trying to close DB", error);
+            logBox["Close DB"] = "This error occured while trying to close DB" + error;
+        }
+        message = "Closing DB...";
+    }
+    return message;
 }
 
 
@@ -87,5 +108,6 @@ module.exports = {
     setMeme,
     memePoolSize,
     logBox,
-    establishConnection
+    establishConnection,
+    closeConnection
 };

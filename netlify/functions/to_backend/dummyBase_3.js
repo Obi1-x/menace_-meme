@@ -126,6 +126,10 @@ const connectDB = () => {
     return mongoDB.establishConnection();
 }
 
+const disconnectDB = () => {
+    return mongoDB.closeConnection();
+}
+
 /*
 const testRetrieve = async () => {
     var aUser = {
@@ -275,5 +279,6 @@ module.exports = {
     popMeme,
     getMemePoolSize,
     dbLogs,
-    connectDB
+    connectDB,
+    disconnectDB
 }
