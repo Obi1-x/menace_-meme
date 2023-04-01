@@ -33,7 +33,11 @@ const dbConnect = () => {
 
 
 //========================================DB QUERIES.
-const getAdmin = async (adminId) => {}
+const getAdmin = async (adminId) => {
+    logBox["lastLog"] = `Get admin ${adminId} on ${new Date().getTime()}`;
+    console.log("Getting admin: ", adminId);
+    return menaceDB.collection("users").findOne({ ID: adminId }); //change to admin.
+}
 
 const setAdmin = (adminId, admin) => {}
 
