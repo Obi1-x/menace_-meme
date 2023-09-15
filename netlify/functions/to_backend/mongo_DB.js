@@ -4,14 +4,13 @@ var logBox = {};
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-console.log("Migrated DB", process.env.DB_URL_2);
 const client = new MongoClient(process.env.DB_URL_2, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 var connectionInstance, menaceDB;
 
 const dbConnect = () => {
     console.log("Connecting to MongoDB Atlas cluster...");
     client.connect().then((connected) => {
-        connectionInstance = connected.close();
+        connectionInstance = connected; //.close();
         menaceDB = connected.db("menace_db");  //REMEMBER TO SAVE DB AND COLLECTIONS NAMES IN THE .ENV FILE
         
         //menaceDB.collection("users").find()

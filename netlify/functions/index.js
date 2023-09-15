@@ -1,4 +1,4 @@
-require('dotenv').config(); //Try removing this
+//require('dotenv').config(); //Try removing this
 
 const express = require('express'); //returns a function
 const app = express(); //Returns an object of type Express
@@ -16,6 +16,9 @@ const bToken = bot_Import.botToken;
 const _url = bot_Import.hookUrl;
 
 const repo = bot_Import.kBoards.daBase;
+
+console.log("URLs: ", _url);
+console.log("Token: ", bToken);
 
 botMod.telegram.setWebhook(_url + bToken); // Run this once to connect the webhook.
 router.use(botMod.webhookCallback("/" + bToken));
